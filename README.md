@@ -15,9 +15,16 @@ A module to keep an updated list of healthy backends. It ensures background heal
 	  checkTimeout:   1000,         // ms
 	  isHealthy:      (res, cb) => { cb(true|false) },
 	});
+
 	pool.add('http://whatever.net');
-	pool.add({ address: 'http://xpto.etc', unhealthyAfter: 1, checkInterval: 20000 });
+	pool.add({
+	  address: 'http://xpto.etc',
+	  unhealthyAfter: 1,
+	  checkInterval: 20000
+	});
+
 	setInterval(() => console.log(pool.getHealthyAddresses()), 10000);
+
 
 
 ## Supported options
@@ -25,9 +32,9 @@ A module to keep an updated list of healthy backends. It ensures background heal
 All options can be passed to the constructor as defaults and can also be passed to the `.add({...})` method if they are backend-specific settings.
 
 - `healthcheckPath`: The healthcheck path to be used. Mandatory to be defined at construction time or as `.add()` option;
-- `healthyAfter`: The number of consecutive successful responses to consider a backend as 'healthy'; (default: 3);
-- `unhealthyAfter`: The number of consecutive unsuccessful responses to consider a backend as 'unhealthy'; (default: 1);
-- `removeAfter`: The number of consecutive unsuccessful responses to remove a backend from the pool; A value of `undefined` or `null` means backends are never removed; (default: `undefined`);
+- `healthyAfter`: Number of consecutive successful responses to consider a backend as 'healthy'; (default: 3);
+- `unhealthyAfter`: Number of consecutive unsuccessful responses to consider a backend as 'unhealthy'; (default: 1);
+- `removeAfter`: Number of consecutive unsuccessful responses to remove a backend from the pool; A value of `undefined` or `null` means backends are never removed; (default: `undefined`);
 - `checkInterval`: The time (in ms) between health checks; (default: 10000);
 - `checkTimeout`: The maximum time to wait for a healthcheck endpoint to answer; (default: 1000);
 - `isHealthy`: A function which decides if a response represents a healthy state; The function arguments are `(httpResponse, callback)`; If you need the response data, you'll need to read it from the stream; (default: 200 status code).
